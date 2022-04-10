@@ -24,10 +24,10 @@ do
     pct exec $container -- bash -c "apt update -y 2>/dev/null" > /dev/null
 
     numOfUpdatesAvalible=$(pct exec $container -- bash -c "apt list --upgradable 2>/dev/null | wc -l")
-    hasUpdateScript=$(pct exec $container -- bash -c "ls | grep update.sh | wc -l")
+    hasUpdateScript=$(pct exec $container -- bash -c "ls ~ | grep update.sh | wc -l")
 
     if [ $numOfUpdatesAvalible -gt 1 ] || [ $hasUpdateScript -gt 0 ]; then
-        echo creating snapshot...
+        echo found updates! creating snapshot...
         pct snapshot $container $snapshotName > /dev/null
 
         if [ $numOfUpdatesAvalible -gt 1 ]; then
@@ -37,7 +37,7 @@ do
 
         if [ $hasUpdateScript -gt 0 ]; then
             echo executing update.sh script
-            pct exec $container -- bash update.sh
+            pct exec $container -- bash ~/update.sh
         fi
     fi
 
