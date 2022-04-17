@@ -84,7 +84,10 @@ if [[ $executeCustom = true ]]; then
         echo "Found directory $ADDITIONAL_SCRIPTS_DIRECTORY."
         echo "running additional scripts..."
 
-        for file in "$ADDITIONAL_SCRIPTS_DIRECTORY*.sh"; do
+        currentDir=$PWD
+
+        for file in *.sh; do
+            cd "$ADDITIONAL_SCRIPTS_DIRECTORY" #reset workdir for every subscript
             echo "==== $file ===="
 
             bash $file
@@ -92,6 +95,8 @@ if [[ $executeCustom = true ]]; then
             echo "$file Done!"
             echo
         done
+
+        cd "$currentDir"
     else
         echo "Directory $ADDITIONAL_SCRIPTS_DIRECTORY not found!"
     fi
