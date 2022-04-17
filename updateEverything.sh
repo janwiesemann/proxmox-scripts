@@ -80,8 +80,7 @@ echo "Searching Containers...."
 fi
 
 if [[ $executeCustom = true ]]; then
-    if [[ -d $ADDITIONAL_SCRIPTS_DIRECTORY ]];
-    then
+    if [[ -d $ADDITIONAL_SCRIPTS_DIRECTORY ]]; then
         echo "Found directory $ADDITIONAL_SCRIPTS_DIRECTORY."
         echo "running additional scripts..."
 
@@ -93,5 +92,7 @@ if [[ $executeCustom = true ]]; then
             echo "$file Done!"
             echo
         done
+    else
+        echo "Directory $ADDITIONAL_SCRIPTS_DIRECTORY not found!"
     fi
 fi
