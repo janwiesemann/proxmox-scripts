@@ -1,17 +1,15 @@
 #!/bin/bash
 
-if [ -z ${DEBUG+x} ]; then
-    exit
+if [[ "$DEBUG" = "yes" ]]; then
+    commands=("apt" "pct")
+
+    echo "=== DEBUG ==="
+
+    for i in "${commands[@]}"
+    do 
+        echo "Adding alias $i"
+        alias $i="echo $i "
+    done
+
+    echo
 fi
-
-commands=("apt" "pct")
-
-echo "=== DEBUG ==="
-
-for i in "${commands[@]}"
-do 
-    echo "Adding alias $i"
-    alias $i="echo $i "
-done
-
-echo
