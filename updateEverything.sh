@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ADDITIONAL_SCRIPTS_DIRECTORY="./updateEverything.d/*.sh"
+ADDITIONAL_SCRIPTS_DIRECTORY="./updateEverything.d/"
 
 source ./debugHelper.sh
 
@@ -81,14 +81,14 @@ fi
 
 if [[ $executeCustom = true ]]; then
     if [[ -d $ADDITIONAL_SCRIPTS_DIRECTORY ]]; then
-        echo "Found directory $ADDITIONAL_SCRIPTS_DIRECTORY."
+        echo "Found directory $ADDITIONAL_SCRIPTS_DIRECTORY"
         echo "running additional scripts..."
 
         currentDir=$PWD
 
-        for file in $ADDITIONAL_SCRIPTS_DIRECTORY; do
+        for file in $ADDITIONAL_SCRIPTS_DIRECTORY*.sh; do
             if [[ "$file" != *\.* ]]; then
-                cd "$ADDITIONAL_SCRIPTS_DIRECTORY" #reset workdir for every subscript
+                cd "$currentDir" #reset workdir for every subscript
                 echo "==== $file ===="
 
                 bash $file
