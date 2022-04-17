@@ -87,15 +87,13 @@ if [[ $executeCustom = true ]]; then
         currentDir=$PWD
 
         for file in $ADDITIONAL_SCRIPTS_DIRECTORY*.sh; do
-            if [[ "$file" != *\.* ]]; then
-                cd "$currentDir" #reset workdir for every subscript
-                echo "==== $file ===="
+            cd "$currentDir" #reset workdir for every subscript
+            echo "==== $file ===="
 
-                bash $file
+            bash $file
 
-                echo "$file Done!"
-                echo
-            fi
+            echo "$file Done!"
+            echo
         done
 
         cd "$currentDir"
