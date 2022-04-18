@@ -46,10 +46,12 @@ if [[ $executeHost = true ]]; then
     echo
 fi
 
+snapshotName="updateSnapshot_$(date +%Y_%m_%d_%k_%M)"
+export snapshotName
+
 #update containers and create snapshots if updates are avalible
 if [[ $executeHost = true ]]; then
 echo "Searching Containers...."
-    snapshotName="updateSnapshot_$(date +%Y_%m_%d_%k_%M)"
     containers=$(pct list | tail -n +2 | cut -f1 -d' ')
     echo
 
@@ -109,3 +111,5 @@ if [[ $executeCustom = true ]]; then
         cd "$currentDir"
     fi
 fi
+
+unset snapshotName
