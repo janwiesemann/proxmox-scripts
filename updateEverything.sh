@@ -2,14 +2,18 @@
 
 ADDITIONAL_SCRIPTS_DIRECTORY="./updateEverything.d/"
 
-source ./debugHelper.sh
+#debugging helper
+if [[ -f "./debugHelper.sh" ]]; then
+    source ./debugHelper.sh
+fi
 
-#this script is used to update every system. This includes the Hos and Containers
+#this script is used to update every system. This includes the Host and Containers
 
 executeHost=false
 executeLXC=false
 executeCustom=false
 
+#Parse command line arguments
 for var in "$@"
 do
     if [[ "$var" =~ "all" ]]; then
@@ -25,12 +29,14 @@ do
     fi
 done
 
+#if no arguement was set use 'all'
 if [[ $executeHost = false && $executeHost = false && $executeCustom = false ]]; then
     executeHost=true
     executeLXC=true
     executeCustom=true
 fi
 
+#Update Host OS
 if [[ $executeHost = true ]]; then
     echo "==== Host ===="
     apt update -y
@@ -40,6 +46,7 @@ if [[ $executeHost = true ]]; then
     echo
 fi
 
+#update containers and create snapshots if updates are avalible
 if [[ $executeHost = true ]]; then
 echo "Searching Containers...."
     snapshotName="updateSnapshot_$(date +%Y_%m_%d_%k_%M)"
@@ -79,6 +86,7 @@ echo "Searching Containers...."
     done;
 fi
 
+#executing custom scripts
 if [[ $executeCustom = true ]]; then
     if [[ -d $ADDITIONAL_SCRIPTS_DIRECTORY ]]; then
         echo "Found directory $ADDITIONAL_SCRIPTS_DIRECTORY"
@@ -87,17 +95,17 @@ if [[ $executeCustom = true ]]; then
         currentDir=$PWD
 
         for file in $ADDITIONAL_SCRIPTS_DIRECTORY*.sh; do
-            cd "$currentDir" #reset workdir for every subscript
-            echo "==== $file ===="
+            if [[ "$file" != "$ADDITIONAL_SCRIPTS_DIRECTORY*.sh" ]]; then
+                cd "$currentDir" #reset workdir for every subscript
+                echo "==== $file ===="
 
-            bash $file
+                bash $file
 
-            echo "$file Done!"
-            echo
+                echo "$file Done!"
+                echo
+            fi
         done
 
         cd "$currentDir"
-    else
-        echo "Directory $ADDITIONAL_SCRIPTS_DIRECTORY not found!"
     fi
 fi
