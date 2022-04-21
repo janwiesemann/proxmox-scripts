@@ -77,7 +77,7 @@ echo "Searching Containers...."
                     fi
 
                     if [ $hasUpdateScript -gt 0 ]; then
-                            "echo executing update.sh script"
+                            echo "executing update.sh script"
                             pct exec $container -- bash ~/update.sh
                     fi
             fi
