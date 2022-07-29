@@ -32,46 +32,24 @@ A collection of automations I'm using in my Homelab.
         ./script.sh
         ```
 
-## Avalible Scripts
+## Available Scripts
 
-<ul>
-    <li>
-        debugHelper.sh<br/>
-        helper script for easy debugging
-    </li>
-    <li>
-        updateEverything.sh<br/>
-        This script can be used to update your Host, Containsers and VMs<br/><br/>
-        <h3>Arguments/Switches</h3>
-        You can combine multiple arguments <code>./updateEverything host custom</code>
-        <table>
-            <theader>
-                <tr>
-                    <td>Command</td>
-                    <td>Function</td>
-                </tr>
-            </theader>
-            <tbody>
-                <tr>
-                    <td>
-                        empty<br/>
-                        <code>all</code>
-                    </td>
-                    <td>Update everything. All stages can be found below</td>
-                </tr>
-                <tr>
-                    <td><code>host</code></td>
-                    <td>Update Host</td>
-                </tr>
-                <tr>
-                    <td><code>lxc</code></td>
-                    <td>Update Containers. <code>apt update -y</code> will be executed inside every container. If updates are avalible a snapshot will be created and averything will be upgreaded using <code>apt upgrade -y</code>. If the file <code>/root/update.sh</code> is present, a snapshot is also is created and the script will be executed. This file has to be placed <b>inside</b> your container!</td>
-                </tr>
-                <tr>
-                    <td><code>custom</code></td>
-                    <td>Executes custom scripts in the directory <code>./updateEverything.d/</code>. This can be used to enter and update VMs. You can use the enviorment variable <code>snapshotName</code> to get the default snapshot name also used on LXCs. A example can be found in the subdirectory <code>./updateEverything.d/example.sh</code> of this repository</td>
-                </tr>
-            </tbody>
-        </table>
-    </li>
-</ul>
+- ### `debugHelper.sh`
+    helper script for easy debugging
+    
+- ### `updateEverything.sh`
+    This script can be used to update all PVE Nodes (Host systems), Container and VMs.
+    
+    All nodes in your cluster will be updated. This can be avoided by using the argument `currentNode`.
+
+    _A cluster has to be created and `pvecm nodes` has to be working. Node names must resolve to the corresponding IPs. I.e. Node named Proxmox => 10.0.0.3_
+
+    #### Stages/Arguments/Switches
+    You can combine multiple arguments i.e. `./updateEverything host custom`
+    Command | Function
+    ---|---
+    _`empty`_<br/>`all` | Update everything. All stages can be found below
+    `host` | Update Host
+    `lxc`| Update Containers. `apt update -y` will be executed inside every container. If updates are avalible a snapshot will be created and averything will be upgreaded using `apt upgrade -y`. If the file `/root/update.sh` is present, a snapshot is also is created and the script will be executed. This file has to be placed <b>inside</b> your container!
+    `custom` | Executes custom scripts in the directory `./updateEverything.d/`. This can be used to enter and update VMs. You can use the enviorment variable `snapshotName` to get the default snapshot name also used on LXCs. A example can be found in the subdirectory `./updateEverything.d/example.sh` of this repository.
+    `currentNode` | Execute the above stages only on the current node.
