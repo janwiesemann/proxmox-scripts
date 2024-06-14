@@ -42,7 +42,7 @@ if [[ $executeHost = false && $executeLXC = false && $executeCustom = false ]]; 
     executeCustom=true
 fi
 
-snapshotName="updateSnapshot_$(date +%Y_%m_%d_%k_%M)"
+snapshotName="updateSnapshot_$(date +%Y_%m_%d_%H_%M)"
 export snapshotName
 
 if [[ $isInvoke = false ]]; then
@@ -96,7 +96,7 @@ else
     if [[ $executeHost = true ]]; then
         echo "==== Host ===="
         apt update -y
-        apt upgrade -y
+        apt full-upgrade -y --autoremove
 
         echo "Host Done!"
         echo
@@ -122,11 +122,11 @@ else
 
                 if [ $numOfUpdatesAvalible -gt 1 ] || [ $hasUpdateScript -gt 0 ]; then
                         echo "found updates! creating snapshot..."
-                        pct snapshot $container $snapshotName > /dev/null
+                        pct snapshot $container $snapshotName
 
                         if [ $numOfUpdatesAvalible -gt 1 ]; then
                                 echo "installing $((numOfUpdatesAvalible - 1)) updates..."
-                                pct exec $container -- apt upgrade -y
+                                pct exec $container -- apt full-upgrade -y --autoremove
                         fi
 
                         if [ $hasUpdateScript -gt 0 ]; then
